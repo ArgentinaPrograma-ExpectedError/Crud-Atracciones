@@ -142,4 +142,10 @@ public class UserDAOImpl implements UserDAO {
 				userRegister.getInt(4), userRegister.getDouble(5), userRegister.getBoolean(6));
 	}
 
+	@Override
+	public int enable(User t) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -16,7 +16,7 @@ public class AttractionDAOImpl implements AttractionDAO {
 
 	public List<Attraction> findAll() {
 		try {
-			String sql = "SELECT ATRACCIONES.ID, ATRACCIONES.NOMBRE, ATRACCIONES.COSTO, ATRACCIONES.DURACION, ATRACCIONES.CUPO, TIPO_ATRACCION.TIPO, ATRACCIONES.DESCRIPCION FROM ATRACCIONES\r\n"
+			String sql = "SELECT ATRACCIONES.ID, ATRACCIONES.NOMBRE, ATRACCIONES.COSTO, ATRACCIONES.DURACION, ATRACCIONES.CUPO, TIPO_ATRACCION.TIPO, ATRACCIONES.DESCRIPCION, ATRACCIONES.ESTADO FROM ATRACCIONES\r\n"
 					+ "JOIN TIPO_ATRACCION\r\n" + "ON TIPO_ATRACCION.ID = ATRACCIONES.TIPO;";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -36,7 +36,7 @@ public class AttractionDAOImpl implements AttractionDAO {
 	@Override
 	public Attraction find(Integer id) {
 		try {
-			String sql = "SELECT ATRACCIONES.ID, ATRACCIONES.NOMBRE, ATRACCIONES.COSTO, ATRACCIONES.DURACION, ATRACCIONES.CUPO, TIPO_ATRACCION.TIPO, ATRACCIONES.DESCRIPCION FROM ATRACCIONES\r\n"
+			String sql = "SELECT ATRACCIONES.ID, ATRACCIONES.NOMBRE, ATRACCIONES.COSTO, ATRACCIONES.DURACION, ATRACCIONES.CUPO, TIPO_ATRACCION.TIPO, ATRACCIONES.DESCRIPCION, ATRACCIONES.ESTADO FROM ATRACCIONES\r\n"
 					+ "JOIN TIPO_ATRACCION\r\n" + "ON TIPO_ATRACCION.ID = ATRACCIONES.TIPO WHERE ATRACCIONES.ID = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -58,7 +58,7 @@ public class AttractionDAOImpl implements AttractionDAO {
 	private Attraction toAttraction(ResultSet attractionRegister) throws SQLException {
 		return new Attraction(attractionRegister.getInt(1), attractionRegister.getString(2),
 				attractionRegister.getInt(3), attractionRegister.getDouble(4), attractionRegister.getInt(5),
-				attractionRegister.getString(6), attractionRegister.getString(7));
+				attractionRegister.getString(6), attractionRegister.getString(7), attractionRegister.getBoolean(8));
 	}
 
 	@Override
@@ -150,6 +150,28 @@ public class AttractionDAOImpl implements AttractionDAO {
 			int total = resultados.getInt("TOTAL");
 
 			return total;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+
+	@Override
+	public int enable(Attraction attraction) {
+		try {
+			String sql = "UPDATE ATRACCIONES SET ESTADO = ? WHERE ID = ?";
+			Connection conn = ConnectionProvider.getConnection();
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			int i = 1;
+			if (attraction.getEneable()) {
+				statement.setInt(i++, 0);
+			} else {
+				statement.setInt(i++, 1);
+			}
+			statement.setInt(i++, attraction.getId());
+			int rows = statement.executeUpdate();
+
+			return rows;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}

@@ -12,10 +12,11 @@ public class Attraction {
 	private Integer capacity;
 	private String type;
 	private String description;
+	private Boolean eneable;
 
 	private Map<String, String> errors;
 
-	public Attraction(Integer id, String name, Integer cost, Double duration, Integer capacity, String type, String description) {
+	public Attraction(Integer id, String name, Integer cost, Double duration, Integer capacity, String type, String description, Boolean eneable) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -24,6 +25,7 @@ public class Attraction {
 		this.capacity = capacity;
 		this.type = type;
 		this.description = description;
+		this.eneable = eneable;
 	}
 
 	public boolean isValid() {
@@ -106,6 +108,18 @@ public class Attraction {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Boolean getEneable() {
+		return eneable;
+	}
+
+	public void setEneable(Boolean eneable) {
+		this.eneable = eneable;
+	}
+	
+	public Boolean isEneable() {
+		return eneable;
 	}
 
 	@Override

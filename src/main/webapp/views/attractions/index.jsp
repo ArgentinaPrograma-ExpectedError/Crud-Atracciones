@@ -28,7 +28,7 @@
 		</c:if>
 
 		<div class="bg-light p-4 mb-3 rounded">
-			<h1>Estas son las atracciones de la Tierra Media</h1>
+			<h1>Listado de atracciones</h1>
 		</div>
 
 		<c:if test="${user.isAdmin()}">
@@ -42,6 +42,7 @@
 			<thead>
 				<tr>
 					<th>Atracción</th>
+					<th>Tipo</th>
 					<th>Costo</th>
 					<th>Duración</th>
 					<th>Cupo</th>
@@ -50,35 +51,52 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${attractions}" var="attraction">
-					<tr>
-						<td><strong><c:out value="${attraction.name}"></c:out></strong>
-							<p>
-								<c:out value="${attraction.description}"></c:out>
-							</p></td>
-						<td><c:out value="${attraction.cost}"></c:out></td>
-						<td><c:out value="${attraction.duration}"></c:out></td>
-						<td><c:out value="${attraction.capacity}"></c:out></td>
+					<c:if test="${user.isAdmin()}">
+						<tr>
+							<td><strong><c:out value="${attraction.name}"></c:out></strong>
+								<p>
+									<c:out value="${attraction.description}"></c:out>
+								</p></td>
+							<td><c:out value="${attraction.type}"></c:out></td>
+							<td><c:out value="${attraction.cost}"></c:out></td>
+							<td><c:out value="${attraction.duration}"></c:out></td>
+							<td><c:out value="${attraction.capacity}"></c:out></td>
 
-						<td><c:if test="${user.admin}">
-								<a href="/turismo/attractions/edit.do?id=${attraction.id}"
-									class="btn btn-light rounded-0" role="button"><i
-									class="bi bi-pencil-fill"></i></a>
-								<a href="/turismo/attractions/delete.do?id=${attraction.id}"
-									class="btn btn-danger rounded" role="button"><i
-									class="bi bi-x-circle-fill"></i></a>
-							</c:if> <c:choose>
+							<td><a
+								href="/turismo/attractions/edit.do?id=${attraction.id}"
+								class="btn btn-light rounded-0" role="button"><i
+									class="bi bi-pencil-fill"></i></a> <a
+								href="/turismo/attractions/delete.do?id=${attraction.id}"
+								class="btn btn-danger rounded" role="button"><i
+									class="bi bi-x-circle-fill"></i></a> <c:choose>
+									<c:when test="${attraction.eneable}">
+										<a href="/turismo/attractions/enable.do?id=${attraction.id}"
+											class="btn btn-success rounded" role="button">Deshabilitar</a>
+									</c:when>
+									<c:otherwise>
+										<a href="/turismo/attractions/enable.do?id=${attraction.id}"
+											class="btn btn-success rounded" role="button">Habilitar</a>
+									</c:otherwise>
+								</c:choose></td>
+						</tr>
+					</c:if>
+					<c:if
+						test="${!user.admin && attraction.eneable && user.canAfford(attraction) && user.canAttend(attraction) && attraction.canHost(1)}">
+						<tr>
+							<td><strong><c:out value="${attraction.name}"></c:out></strong>
+								<p>
+									<c:out value="${attraction.description}"></c:out>
+								</p></td>
+							<td><c:out value="${attraction.type}"></c:out></td>
+							<td><c:out value="${attraction.cost}"></c:out></td>
+							<td><c:out value="${attraction.duration}"></c:out></td>
+							<td><c:out value="${attraction.capacity}"></c:out></td>
 
-								<c:when
-									test="${user.canAfford(attraction) && user.canAttend(attraction) && attraction.canHost(1)}">
-									<a href="/turismo/attractions/buy.do?id=${attraction.id}"
-										class="btn btn-success rounded" role="button">Comprar</a>
-								</c:when>
-								<c:otherwise>
-									<a href="#" class="btn btn-secondary rounded disabled"
-										role="button">No se puede comprar</a>
-								</c:otherwise>
-							</c:choose></td>
-					</tr>
+							<td><a
+								href="/turismo/attractions/buy.do?id=${attraction.id}"
+								class="btn btn-success rounded" role="button">Comprar</a></td>
+						</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>

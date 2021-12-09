@@ -9,7 +9,7 @@ public class CryptTests {
 
 	@Test
 	public void testHash() {
-		System.out.print(Crypt.hash("eric"));
+		System.out.print(Crypt.hash("admin"));
 		Object hashed = Crypt.hash(password);
 		Assert.assertFalse(hashed.equals(password));
 	}

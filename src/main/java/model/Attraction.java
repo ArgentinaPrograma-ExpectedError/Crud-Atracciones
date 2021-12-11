@@ -1,9 +1,12 @@
 package model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public class Attraction {
+public class Attraction implements Suggestion, Comparable<Attraction> {
 
 	private Integer id;
 	private String name;
@@ -12,11 +15,12 @@ public class Attraction {
 	private Integer capacity;
 	private String type;
 	private String description;
-	private Boolean eneable;
+	private Boolean enable;
 
 	private Map<String, String> errors;
 
-	public Attraction(Integer id, String name, Integer cost, Double duration, Integer capacity, String type, String description, Boolean eneable) {
+	public Attraction(Integer id, String name, Integer cost, Double duration, Integer capacity, String type,
+			String description, Boolean eneable) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -25,7 +29,7 @@ public class Attraction {
 		this.capacity = capacity;
 		this.type = type;
 		this.description = description;
-		this.eneable = eneable;
+		this.enable = eneable;
 	}
 
 	public boolean isValid() {
@@ -101,7 +105,7 @@ public class Attraction {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -109,17 +113,17 @@ public class Attraction {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public Boolean getEneable() {
-		return eneable;
+
+	public Boolean getEnable() {
+		return enable;
 	}
 
-	public void setEneable(Boolean eneable) {
-		this.eneable = eneable;
+	public void setEnable(Boolean eneable) {
+		this.enable = eneable;
 	}
-	
-	public Boolean isEneable() {
-		return eneable;
+
+	public Boolean isEnable() {
+		return enable;
 	}
 
 	@Override
@@ -134,6 +138,40 @@ public class Attraction {
 
 	public void host(int i) {
 		this.capacity -= i;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(capacity, cost, description, duration, enable, id, name, type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Attraction other = (Attraction) obj;
+		return Objects.equals(capacity, other.capacity) && Objects.equals(cost, other.cost)
+				&& Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
+				&& Objects.equals(enable, other.enable) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(type, other.type);
+	}
+
+	public int compareTo(Attraction otraAtraccion) {
+		if (this.getCost().compareTo(otraAtraccion.getCost()) == 0) {
+			return this.getDuration().compareTo(otraAtraccion.getDuration());
+		}
+		return this.getCost().compareTo(otraAtraccion.getCost());
+	}
+
+	@Override
+	public List<Attraction> getAttractions() {
+		List<Attraction> atracciones = new LinkedList<Attraction>();
+		atracciones.add(this);
+		return atracciones;
 	}
 
 }

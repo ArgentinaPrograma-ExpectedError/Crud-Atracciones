@@ -8,12 +8,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.Attraction;
+import model.AttractionType;
 import persistence.AttractionDAO;
 import persistence.commons.ConnectionProvider;
 import persistence.commons.MissingDataException;
 
 public class AttractionDAOImpl implements AttractionDAO {
 
+	List<AttractionType> attractionTypes = findAttractionTypes();
+
+	@Override
 	public List<Attraction> findAll() {
 		try {
 			String sql = "SELECT ATRACCIONES.ID, ATRACCIONES.NOMBRE, ATRACCIONES.COSTO, ATRACCIONES.DURACION, ATRACCIONES.CUPO, TIPO_ATRACCION.TIPO, ATRACCIONES.DESCRIPCION, ATRACCIONES.ESTADO FROM ATRACCIONES\r\n"
@@ -23,6 +27,7 @@ public class AttractionDAOImpl implements AttractionDAO {
 			ResultSet resultados = statement.executeQuery();
 
 			List<Attraction> attractions = new LinkedList<Attraction>();
+
 			while (resultados.next()) {
 				attractions.add(toAttraction(resultados));
 			}
@@ -55,12 +60,6 @@ public class AttractionDAOImpl implements AttractionDAO {
 		}
 	}
 
-	private Attraction toAttraction(ResultSet attractionRegister) throws SQLException {
-		return new Attraction(attractionRegister.getInt(1), attractionRegister.getString(2),
-				attractionRegister.getInt(3), attractionRegister.getDouble(4), attractionRegister.getInt(5),
-				attractionRegister.getString(6), attractionRegister.getString(7), attractionRegister.getBoolean(8));
-	}
-
 	@Override
 	public int insert(Attraction attraction) {
 		try {
@@ -68,21 +67,17 @@ public class AttractionDAOImpl implements AttractionDAO {
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
-			int i = 1;
-			statement.setString(i++, attraction.getName());
-			statement.setInt(i++, attraction.getCost());
-			statement.setDouble(i++, attraction.getDuration());
-			statement.setInt(i++, attraction.getCapacity());
-			if (attraction.getType().equals("AVENTURA")) {
-				statement.setInt(i++, 1);
+			statement.setString(1, attraction.getName());
+			statement.setInt(2, attraction.getCost());
+			statement.setDouble(3, attraction.getDuration());
+			statement.setInt(4, attraction.getCapacity());
+			for (AttractionType at : attractionTypes) {
+				if (at.getType().equals(attraction.getType())) {
+					statement.setInt(5, at.getId());
+				}
 			}
-			if (attraction.getType().equals("DEGUSTACION")) {
-				statement.setInt(i++, 2);
-			}
-			if (attraction.getType().equals("PAISAJE")) {
-				statement.setInt(i++, 3);
-			}
-			statement.setString(i++, attraction.getDescription());
+
+			statement.setString(6, attraction.getDescription());
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -98,22 +93,17 @@ public class AttractionDAOImpl implements AttractionDAO {
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
-			int i = 1;
-			statement.setString(i++, attraction.getName());
-			statement.setInt(i++, attraction.getCost());
-			statement.setDouble(i++, attraction.getDuration());
-			statement.setInt(i++, attraction.getCapacity());
-			if (attraction.getType().equals("AVENTURA")) {
-				statement.setInt(i++, 1);
+			statement.setString(1, attraction.getName());
+			statement.setInt(2, attraction.getCost());
+			statement.setDouble(3, attraction.getDuration());
+			statement.setInt(4, attraction.getCapacity());
+			for (AttractionType at : attractionTypes) {
+				if (at.getType().equals(attraction.getType())) {
+					statement.setInt(5, at.getId());
+				}
 			}
-			if (attraction.getType().equals("DEGUSTACION")) {
-				statement.setInt(i++, 2);
-			}
-			if (attraction.getType().equals("PAISAJE")) {
-				statement.setInt(i++, 3);
-			}
-			statement.setString(i++, attraction.getDescription());
-			statement.setInt(i++, attraction.getId());
+			statement.setString(6, attraction.getDescription());
+			statement.setInt(7, attraction.getId());
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -163,7 +153,7 @@ public class AttractionDAOImpl implements AttractionDAO {
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
-			if (attraction.getEneable()) {
+			if (attraction.getEnable()) {
 				statement.setInt(i++, 0);
 			} else {
 				statement.setInt(i++, 1);
@@ -177,4 +167,32 @@ public class AttractionDAOImpl implements AttractionDAO {
 		}
 	}
 
+	public List<AttractionType> findAttractionTypes() {
+		try {
+			String sql = "SELECT * FROM TIPO_ATRACCION";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			ResultSet resultados = statement.executeQuery();
+
+			List<AttractionType> attractionTypes = new LinkedList<AttractionType>();
+
+			while (resultados.next()) {
+				attractionTypes.add(toAttractionType(resultados));
+			}
+
+			return attractionTypes;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+
+	private Attraction toAttraction(ResultSet attractionRegister) throws SQLException {
+		return new Attraction(attractionRegister.getInt(1), attractionRegister.getString(2),
+				attractionRegister.getInt(3), attractionRegister.getDouble(4), attractionRegister.getInt(5),
+				attractionRegister.getString(6), attractionRegister.getString(7), attractionRegister.getBoolean(8));
+	}
+
+	private AttractionType toAttractionType(ResultSet resultados) throws SQLException {
+		return new AttractionType(resultados.getInt(1), resultados.getString(2));
+	}
 }

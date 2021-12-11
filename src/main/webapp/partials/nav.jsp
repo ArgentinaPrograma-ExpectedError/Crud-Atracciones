@@ -13,6 +13,10 @@
 				<li class="nav-item"><a class="nav-link active"
 					aria-current="page" href="/turismo/attractions/index.do">Atracciones</a></li>
 			</ul>
+			<ul class="navbar-nav me-auto mb-2 mb-md-0">
+				<li class="nav-item"><a class="nav-link active"
+					aria-current="page" href="/turismo/promotions/index.do">Promociones</a></li>
+			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

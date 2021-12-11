@@ -69,7 +69,7 @@
 								href="/turismo/attractions/delete.do?id=${attraction.id}"
 								class="btn btn-danger rounded" role="button"><i
 									class="bi bi-x-circle-fill"></i></a> <c:choose>
-									<c:when test="${attraction.eneable}">
+									<c:when test="${attraction.enable}">
 										<a href="/turismo/attractions/enable.do?id=${attraction.id}"
 											class="btn btn-success rounded" role="button">Deshabilitar</a>
 									</c:when>

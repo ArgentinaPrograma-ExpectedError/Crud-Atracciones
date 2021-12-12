@@ -37,7 +37,7 @@ public abstract class Promotion implements Suggestion, Comparable<Promotion> {
 		return name;
 	}
 
-	public String getType() {
+	public String getAttractionType() {
 		return attractionType;
 	}
 
@@ -67,18 +67,26 @@ public abstract class Promotion implements Suggestion, Comparable<Promotion> {
 
 	public double calculateDuration() {
 		double tiempo = 0;
-		for (Attraction atraccion : attractions) {
-			tiempo += atraccion.getDuration();
+		try {
+			for (Attraction atraccion : attractions) {
+				tiempo += atraccion.getDuration();
+			}
+			return tiempo;
+		} catch (Exception e) {
+			return tiempo;
 		}
-		return tiempo;
 	}
 
 	public int calculateNetCost() {
 		int costo = 0;
-		for (Attraction atraccion : attractions) {
-			costo += atraccion.getCost();
+		try {
+			for (Attraction atraccion : attractions) {
+				costo += atraccion.getCost();
+			}
+			return costo;
+		} catch (Exception e) {
+			return costo;
 		}
-		return costo;
 	}
 
 	public boolean canHost(int i) {
@@ -100,7 +108,7 @@ public abstract class Promotion implements Suggestion, Comparable<Promotion> {
 
 	public boolean validAttractions() {
 		for (Attraction a : attractions) {
-			if (!this.getType().equals(a.getType())) {
+			if (!this.getAttractionType().equals(a.getAttractionType())) {
 				return false;
 			}
 		}
@@ -110,6 +118,7 @@ public abstract class Promotion implements Suggestion, Comparable<Promotion> {
 	public abstract int calculateCost();
 
 	public abstract Integer getCost();
+	public abstract void setCost(int i);
 
 	public abstract String getData();
 
@@ -141,5 +150,15 @@ public abstract class Promotion implements Suggestion, Comparable<Promotion> {
 	}
 
 	public abstract boolean isValid();
+
+	public void setName(String name2) {
+		this.name = name2;
+
+	}
+
+	public void setDescription(String description2) {
+		this.description = description2;
+		
+	}
 
 }

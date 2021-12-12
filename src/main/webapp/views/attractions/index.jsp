@@ -57,7 +57,7 @@
 								<p>
 									<c:out value="${attraction.description}"></c:out>
 								</p></td>
-							<td><c:out value="${attraction.type}"></c:out></td>
+							<td><c:out value="${attraction.attractionType}"></c:out></td>
 							<td><c:out value="${attraction.cost}"></c:out></td>
 							<td><c:out value="${attraction.duration}"></c:out></td>
 							<td><c:out value="${attraction.capacity}"></c:out></td>
@@ -81,13 +81,13 @@
 						</tr>
 					</c:if>
 					<c:if
-						test="${!user.admin && attraction.eneable && user.canAfford(attraction) && user.canAttend(attraction) && attraction.canHost(1)}">
+						test="${!user.admin && attraction.enable && user.canAfford(attraction) && user.canAttend(attraction) && attraction.canHost(1)}">
 						<tr>
 							<td><strong><c:out value="${attraction.name}"></c:out></strong>
 								<p>
 									<c:out value="${attraction.description}"></c:out>
 								</p></td>
-							<td><c:out value="${attraction.type}"></c:out></td>
+							<td><c:out value="${attraction.attractionType}"></c:out></td>
 							<td><c:out value="${attraction.cost}"></c:out></td>
 							<td><c:out value="${attraction.duration}"></c:out></td>
 							<td><c:out value="${attraction.capacity}"></c:out></td>

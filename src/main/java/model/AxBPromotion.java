@@ -15,12 +15,19 @@ public class AxBPromotion extends Promotion {
 		super(id, name, attractionType, promotionType, attractions, description, enable);
 		this.cost = this.calculateCost();
 	}
+	
+	
 
 	public int calculateCost() {
 		List<Attraction> atracciones = super.getAttractions();
 		Collections.sort(atracciones);
-		Integer descuento = atracciones.get(0).getCost();
-		return super.getNetCost() - descuento;
+		try {
+			Integer descuento = atracciones.get(0).getCost();
+			return super.getNetCost() - descuento;
+		} catch (Exception e) {
+			return 0;
+		}
+	
 	}
 
 	public Integer getCost() {
@@ -28,7 +35,7 @@ public class AxBPromotion extends Promotion {
 	}
 
 	public String getData() {
-		return super.getName() + "\nTipo: " + super.getType() + "\nAtracciones incluidas: " + super.getNameAttractions()
+		return super.getName() + "\nTipo: " + super.getAttractionType() + "\nAtracciones incluidas: " + super.getNameAttractions()
 				+ "\nCosto: " + this.getCost() + " monedas de oro" + "\nDuración: " + super.getDuration() + " horas";
 	}
 
@@ -44,12 +51,21 @@ public class AxBPromotion extends Promotion {
 				&& !super.getPromotionType().equals("PORCENTUAL")) {
 			errors.put("promotionType", "Debe ser un tipo válido");
 		}
-		if (!super.getType().equals("AVENTURA") && !super.getType().equals("DEGUSTACION")
-				&& !super.getType().equals("PAISAJE")) {
+		if (!super.getAttractionType().equals("AVENTURA") && !super.getAttractionType().equals("DEGUSTACION")
+				&& !super.getAttractionType().equals("PAISAJE")) {
 			errors.put("attractionType", "Debe ser un tipo válido");
 		}
 		if (!validAttractions()) {
 			errors.put("sameType", "Las atracciones deben ser del mismo tipo declarado.");
 		}
+	}
+
+public Map<String, String> getErrors() {
+	return errors;
+}
+
+	@Override
+	public void setCost(int i) {
+		this.cost = i;
 	}
 }

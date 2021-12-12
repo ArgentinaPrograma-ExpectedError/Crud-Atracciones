@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import persistence.AttractionDAO;
+import persistence.commons.DAOFactory;
+
 public class Attraction implements Suggestion, Comparable<Attraction> {
 
 	private Integer id;
@@ -13,13 +16,12 @@ public class Attraction implements Suggestion, Comparable<Attraction> {
 	private Integer cost;
 	private Double duration;
 	private Integer capacity;
-	private String type;
+	private String attractionType;
 	private String description;
 	private Boolean enable;
-
 	private Map<String, String> errors;
 
-	public Attraction(Integer id, String name, Integer cost, Double duration, Integer capacity, String type,
+	public Attraction(Integer id, String name, Integer cost, Double duration, Integer capacity, String attractionType,
 			String description, Boolean eneable) {
 		super();
 		this.id = id;
@@ -27,7 +29,7 @@ public class Attraction implements Suggestion, Comparable<Attraction> {
 		this.cost = cost;
 		this.duration = duration;
 		this.capacity = capacity;
-		this.type = type;
+		this.attractionType = attractionType;
 		this.description = description;
 		this.enable = eneable;
 	}
@@ -40,6 +42,13 @@ public class Attraction implements Suggestion, Comparable<Attraction> {
 	public void validate() {
 		errors = new HashMap<String, String>();
 
+		AttractionDAO attractionDAO = DAOFactory.getAttractionDAO();
+		List<AttractionType> attractionTypes = attractionDAO.findAttractionTypes();
+		List<String> types = new LinkedList<String>();
+		for (AttractionType at : attractionTypes) {
+			types.add(at.getType());
+		}
+
 		if (cost <= 0) {
 			errors.put("cost", "Debe ser positivo");
 		}
@@ -49,8 +58,8 @@ public class Attraction implements Suggestion, Comparable<Attraction> {
 		if (capacity <= 0) {
 			errors.put("capacity", "Debe ser positivo");
 		}
-		if (!type.equals("AVENTURA") && !type.equals("DEGUSTACION") && !type.equals("PAISAJE")) {
-			errors.put("type", "Debe ser un tipo válido");
+		if (!types.contains(attractionType)) {
+			errors.put("attractionType", "Debe ser un tipo válido");
 		}
 	}
 
@@ -98,12 +107,12 @@ public class Attraction implements Suggestion, Comparable<Attraction> {
 		this.capacity = capacity;
 	}
 
-	public String getType() {
-		return type;
+	public String getAttractionType() {
+		return attractionType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setAttractionType(String attractionType) {
+		this.attractionType = attractionType;
 	}
 
 	public String getDescription() {
@@ -142,7 +151,7 @@ public class Attraction implements Suggestion, Comparable<Attraction> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(capacity, cost, description, duration, enable, id, name, type);
+		return Objects.hash(capacity, cost, description, duration, enable, id, name, attractionType);
 	}
 
 	@Override
@@ -157,7 +166,7 @@ public class Attraction implements Suggestion, Comparable<Attraction> {
 		return Objects.equals(capacity, other.capacity) && Objects.equals(cost, other.cost)
 				&& Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
 				&& Objects.equals(enable, other.enable) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Objects.equals(type, other.type);
+				&& Objects.equals(name, other.name) && Objects.equals(attractionType, other.attractionType);
 	}
 
 	public int compareTo(Attraction otraAtraccion) {

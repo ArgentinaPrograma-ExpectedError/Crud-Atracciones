@@ -6,7 +6,7 @@ public interface Suggestion {
 
 	String getName();
 
-	String getType();
+	String getAttractionType();
 
 	Integer getCost();
 

@@ -40,7 +40,7 @@ public class PromotionDAOImpl implements PromotionDAO {
 			List<Promotion> promociones = new LinkedList<Promotion>();
 
 			while (resultados.next()) {
-				List<Integer> idAttractions = getIdAttractions(resultados.getInt(1));
+				List<Integer> idAttractions = getIdAttractions(resultados.getString(2));
 				if (resultados.getString(4).equals("ABSOLUTA")) {
 					promociones.add(toAbsolutePromotion(resultados, idAttractions));
 				}
@@ -73,7 +73,7 @@ public class PromotionDAOImpl implements PromotionDAO {
 
 			Promotion promotion = null;
 			if (resultados.next()) {
-				List<Integer> idAttractions = getIdAttractions(resultados.getInt(1));
+				List<Integer> idAttractions = getIdAttractions(resultados.getString(2));
 				if (resultados.getString(4).equals("ABSOLUTA")) {
 					promotion = toAbsolutePromotion(resultados, idAttractions);
 				}
@@ -100,6 +100,7 @@ public class PromotionDAOImpl implements PromotionDAO {
 
 			PreparedStatement statementA = conn.prepareStatement(sqlA);
 			PreparedStatement statementB = conn.prepareStatement(sqlB);
+
 			if (promotion.getPromotionType().equals("ABSOLUTA")) {
 				statementA.setInt(1, 1);
 			}
@@ -110,36 +111,35 @@ public class PromotionDAOImpl implements PromotionDAO {
 				statementA.setInt(1, 3);
 			}
 			statementA.setString(2, promotion.getName());
-			if (promotion.getAttractions().get(0).getType().equals("AVENTURA")) {
+			if (promotion.getAttractions().get(0).getAttractionType().equals("AVENTURA")) {
 				statementA.setInt(3, 1);
 			}
-			if (promotion.getAttractions().get(0).getType().equals("DEGUSTACION")) {
+			if (promotion.getAttractions().get(0).getAttractionType().equals("DEGUSTACION")) {
 				statementA.setInt(3, 2);
 			}
-			if (promotion.getAttractions().get(0).getType().equals("PAISAJE")) {
+			if (promotion.getAttractions().get(0).getAttractionType().equals("PAISAJE")) {
 				statementA.setInt(3, 3);
 			}
 
 			if (promotion.getPromotionType().equals("ABSOLUTA")) {
 				statementA.setInt(5, ((AbsolutePromotion) promotion).getCost());
-				System.out.println(promotion.getCost());
 			}
 			if (promotion.getPromotionType().equals("PORCENTUAL")) {
 				statementA.setInt(4, ((PercentagePromotion) promotion).getDiscount());
 			}
 
 			statementA.setString(6, promotion.getDescription());
+
 			int rowsA = statementA.executeUpdate();
 
 			for (Attraction a : promotion.getAttractions()) {
 				for (Promotion p : findAll()) {
-					if (p.getName().equals(promotion.getName())) {
+					if (p.getName().equals(promotion.getName()) && promotion.getAttractions().contains(a)) {
 						statementB.setInt(1, p.getId());
 						statementB.setInt(2, a.getId());
 						statementB.executeUpdate();
 					}
 				}
-
 			}
 
 			return rowsA;
@@ -167,14 +167,56 @@ public class PromotionDAOImpl implements PromotionDAO {
 
 	@Override
 	public int update(Promotion t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sqlA = "UPDATE PROMOCIONES SET NOMBRE = ?, DESCRIPCION = ? WHERE ID = ?";
+			String sqlB = "UPDATE PROMOCIONES SET PRECIO = ? WHERE ID = ?";
+			String sqlC = "UPDATE PROMOCIONES SET DESCUENTO = ? WHERE ID = ?";
+			Connection conn = ConnectionProvider.getConnection();
+
+			PreparedStatement statementA = conn.prepareStatement(sqlA);
+			PreparedStatement statementB = conn.prepareStatement(sqlB);
+			PreparedStatement statementC = conn.prepareStatement(sqlC);
+
+			statementA.setString(1, t.getName());
+			statementA.setString(2, t.getDescription());
+			statementA.setInt(3, t.getId());
+			if (t.getPromotionType().equals("ABSOLUTA")) {
+				statementB.setInt(1, ((AbsolutePromotion) t).getCost());
+				statementB.setInt(2, t.getId());
+				statementB.executeUpdate();
+			}
+			if (t.getPromotionType().equals("PORCENTUAL")) {
+				statementC.setInt(1, ((PercentagePromotion) t).getCost());
+				statementC.setInt(2, t.getId());
+				statementC.executeUpdate();
+			}
+
+			int rowsA = statementA.executeUpdate();
+
+			return rowsA;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
 	}
 
 	@Override
-	public int delete(Promotion t) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(Promotion Promotion) {
+		try {
+			String sqlA = "DELETE FROM PROMOCIONES_ATRACCIONES WHERE ID_PROMOCION = ?";
+			String sqlB = "DELETE FROM PROMOCIONES WHERE ID = ?";
+			Connection conn = ConnectionProvider.getConnection();
+
+			PreparedStatement statementA = conn.prepareStatement(sqlA);
+			PreparedStatement statementB = conn.prepareStatement(sqlB);
+			statementA.setInt(1, Promotion.getId());
+			statementB.setInt(1, Promotion.getId());
+			int rowsA = statementA.executeUpdate();
+			int rowsB = statementB.executeUpdate();
+
+			return rowsA + rowsB;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
 	}
 
 	@Override
@@ -218,13 +260,13 @@ public class PromotionDAOImpl implements PromotionDAO {
 		}
 	}
 
-	private List<Integer> getIdAttractions(Integer id) {
+	private List<Integer> getIdAttractions(String name) {
 		try {
 			List<Integer> id_atracciones = new LinkedList<Integer>();
-			String sql = "SELECT ATRACCIONES.ID FROM ATRACCIONES JOIN PROMOCIONES_ATRACCIONES ON PROMOCIONES_ATRACCIONES.ID_ATRACCION=ATRACCIONES.ID JOIN PROMOCIONES ON PROMOCIONES_ATRACCIONES.ID_PROMOCION=PROMOCIONES.ID WHERE PROMOCIONES.ID = ?";
+			String sql = "SELECT ATRACCIONES.ID FROM ATRACCIONES JOIN PROMOCIONES_ATRACCIONES ON PROMOCIONES_ATRACCIONES.ID_ATRACCION=ATRACCIONES.ID JOIN PROMOCIONES ON PROMOCIONES_ATRACCIONES.ID_PROMOCION=PROMOCIONES.ID WHERE PROMOCIONES.NOMBRE = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setInt(1, id);
+			statement.setString(1, name);
 			ResultSet resultados = statement.executeQuery();
 
 			while (resultados.next()) {

@@ -72,7 +72,7 @@ public class AttractionDAOImpl implements AttractionDAO {
 			statement.setDouble(3, attraction.getDuration());
 			statement.setInt(4, attraction.getCapacity());
 			for (AttractionType at : attractionTypes) {
-				if (at.getType().equals(attraction.getType())) {
+				if (at.getType().equals(attraction.getAttractionType())) {
 					statement.setInt(5, at.getId());
 				}
 			}
@@ -98,7 +98,7 @@ public class AttractionDAOImpl implements AttractionDAO {
 			statement.setDouble(3, attraction.getDuration());
 			statement.setInt(4, attraction.getCapacity());
 			for (AttractionType at : attractionTypes) {
-				if (at.getType().equals(attraction.getType())) {
+				if (at.getType().equals(attraction.getAttractionType())) {
 					statement.setInt(5, at.getId());
 				}
 			}

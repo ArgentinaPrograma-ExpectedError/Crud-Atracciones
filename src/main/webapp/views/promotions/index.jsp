@@ -59,7 +59,7 @@
 									<c:out value="${promotion.description}"></c:out>
 								</p></td>
 							<td><c:out value="${promotion.getNameAttractions()}"></c:out></td>
-							<td><c:out value="${promotion.type}"></c:out></td>
+							<td><c:out value="${promotion.attractionType}"></c:out></td>
 							<td><c:out value="${promotion.promotionType}"></c:out></td>
 							<td><c:out value="${promotion.getCost()}"></c:out></td>
 							<td><c:out value="${promotion.getDuration()}"></c:out></td>

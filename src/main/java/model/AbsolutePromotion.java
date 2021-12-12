@@ -34,7 +34,7 @@ public class AbsolutePromotion extends Promotion {
 	}
 
 	public String getData() {
-		return super.getName() + "\nTipo: " + super.getType() + "\nAtracciones incluidas: " + super.getNameAttractions()
+		return super.getName() + "\nTipo: " + super.getAttractionType() + "\nAtracciones incluidas: " + super.getNameAttractions()
 				+ "\nCosto: " + this.getCost() + " monedas de oro" + "\nDuración: " + super.getDuration() + " horas";
 	}
 
@@ -53,12 +53,16 @@ public class AbsolutePromotion extends Promotion {
 				&& !super.getPromotionType().equals("PORCENTUAL")) {
 			errors.put("promotionType", "Debe ser un tipo válido");
 		}
-		if (!super.getType().equals("AVENTURA") && !super.getType().equals("DEGUSTACION")
-				&& !super.getType().equals("PAISAJE")) {
+		if (!super.getAttractionType().equals("AVENTURA") && !super.getAttractionType().equals("DEGUSTACION")
+				&& !super.getAttractionType().equals("PAISAJE")) {
 			errors.put("attractionType", "Debe ser un tipo válido");
 		}
 		if (!validAttractions()) {
 			errors.put("sameType", "Las atracciones deben ser del mismo tipo declarado.");
 		}
+	}
+	
+	public Map<String, String> getErrors() {
+		return errors;
 	}
 }

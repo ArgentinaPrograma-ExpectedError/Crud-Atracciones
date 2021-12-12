@@ -12,9 +12,9 @@ public class AttractionService {
 		return DAOFactory.getAttractionDAO().findAll();
 	}
 
-	public Attraction create(String name, Integer cost, Double duration, Integer capacity, String type, String description, Boolean state) {
+	public Attraction create(String name, Integer cost, Double duration, Integer capacity, String attractionType, String description, Boolean state) {
 
-		Attraction attraction = new Attraction(-1, name, cost, duration, capacity, type, description, state);
+		Attraction attraction = new Attraction(-1, name, cost, duration, capacity, attractionType, description, state);
 
 		if (attraction.isValid()) {
 			AttractionDAO attractionDAO = DAOFactory.getAttractionDAO();
@@ -34,7 +34,7 @@ public class AttractionService {
 		attraction.setCost(cost);
 		attraction.setDuration(duration);
 		attraction.setCapacity(capacity);
-		attraction.setType(type);
+		attraction.setAttractionType(type);
 		attraction.setDescription(description);
 		
 

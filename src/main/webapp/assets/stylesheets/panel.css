@@ -1,0 +1,43 @@
+#brand {
+	color: inherit;
+	font-size: 4em;
+	cursor: pointer;
+}
+
+* {
+	font-family: 'MedievalSharp', cursive;
+}
+
+main, table {
+	margin: auto;
+	text-align: center;
+}
+
+table {
+	width: 80%;
+	border: 1px solid #0d1314e7;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid #262829;
+	padding: 5px 10px;
+}
+
+th {
+	background-color: rgba(226, 30, 216, 0.349);
+	text-align: center;
+}
+
+tr {
+	background-color: rgba(30, 172, 228, 0.527);
+	text-align: left;
+}
+
+tr:nth-child(even) {
+	background-color: rgba(221, 228, 231, 0.322);
+}
+
+table:last-child tr td {
+	text-align: center;
+}

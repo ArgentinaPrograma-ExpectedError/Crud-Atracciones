@@ -1,0 +1,114 @@
+@charset "UTF-8";
+* {
+  font-family: "MedievalSharp", cursive;
+  
+}
+img {
+  width: 20em;
+  height: 20em;
+  padding: 3px;
+}
+
+#brand {
+   font-size: 5em;
+   cursor: pointer;
+    background: -webkit-linear-gradient(rgba(7, 247, 247, 0.993), rgb(247, 244, 244));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin: 0;
+ 
+}
+
+
+body {
+  color: rgb(235, 239, 243);
+  margin: 0;
+  background: rgb(3,3,7);
+  background: linear-gradient(183deg, rgba(3,3,7,1) 0%, rgba(2,208,250,0.3304853117867802) 100%);
+
+}
+
+ul,ol {
+  list-style: none;
+  padding: 0%;
+}
+
+header {
+  padding: 0;
+  background: rgb(3,3,7);
+  background: linear-gradient(0deg, rgba(3,3,7,1) 0%, rgba(2, 209, 250, 0.774) 100%);
+  border: #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 16px 10px rgba(8, 83, 80, 0.36);
+  -webkit-box-shadow: 0px 0px 16px 10px rgba(8, 83, 80, 0.36);
+  -moz-box-shadow: 0px 0px 16px 10px rgba(8, 83, 80, 0.36);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}
+header ul {
+  display: flex;
+}
+header ul, li {
+  margin-right: 2em;
+  display: flex-box;
+}
+
+main {
+
+  width: 80%;
+  display: inline-block;
+  border: 1px solid #e5e5e5;
+  box-shadow: 1em #08151a;
+  margin: center;
+}
+
+.lista-articulos {
+  display: flex;
+  overflow-x: scroll;
+  border-radius: 10px black;
+}
+
+li article {
+  border-radius: 7px;
+  padding-bottom: 5px;
+  background: rgba(76, 163, 235, 0.274);
+  margin-right: 1em;
+  border-radius: 7px rgb(22, 21, 21);
+  
+}
+
+li article img {
+  width: 23em;
+  height: 23em;
+  border-radius: 7px;
+  border: 2px solid black;
+  object-fit: cover; /*para q no se deforme*/
+}
+li article button {
+  padding-bottom: 5px;
+  border-radius: 10%;
+ 
+}
+
+footer {
+  margin: none;
+  margin-top: 2em;
+  border-top: 1px solid #e5e5e5;
+  padding: 10px;
+  background: rgb(3,3,7);
+  background: linear-gradient(0deg, rgba(3,3,7,1) 0%, rgba(0,212,255,0.2574516039216117) 100%);
+  text-align: center;
+  color: aliceblue;
+  
+}
+.container-all{
+  width: 100%;
+  max-width:1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}

@@ -1,43 +1,90 @@
+@charset "UTF8";
 #brand {
-	color: inherit;
-	font-size: 4em;
-	cursor: pointer;
+   font-size: 5em;
+   cursor: pointer;
+    background: -webkit-linear-gradient(rgba(7, 247, 247, 0.993), rgb(247, 244, 244));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin: 0;
+  }
+  
+  * {
+    font-family: "MedievalSharp", cursive;
+  }
+  
+  table {
+    border: 1px solid #0d1314e7;
+    border-collapse: collapse;
+    
+  }
+  th,
+  td {
+    border: 1px solid #262829;
+    padding: 5px 10px;
+    border-radius: 7%;
+   
 }
+  th {
+    background-color: rgba(127, 143, 36, 0.349);
+    text-align: center;
+  }
+  tr {
+    background-color: rgba(220, 228, 231, 0.527);
+    text-align: left;
+  }
+  tr:nth-child(even) {
+    background-color: #5a59152c;
+  }
+  table:last-child tr td {
+    text-align: center;
+  }
+  
 
-* {
-	font-family: 'MedievalSharp', cursive;
-}
-
-main, table {
-	margin: auto;
-	text-align: center;
-}
-
-table {
-	width: 80%;
-	border: 1px solid #0d1314e7;
-	border-collapse: collapse;
-}
-
-th, td {
-	border: 1px solid #262829;
-	padding: 5px 10px;
-}
-
-th {
-	background-color: rgba(226, 30, 216, 0.349);
-	text-align: center;
-}
-
-tr {
-	background-color: rgba(30, 172, 228, 0.527);
-	text-align: left;
-}
-
-tr:nth-child(even) {
-	background-color: rgba(221, 228, 231, 0.322);
-}
-
-table:last-child tr td {
-	text-align: center;
-}
+  
+  header {
+  
+  
+    background: rgb(3,3,7);
+    background: linear-gradient(0deg, rgba(3,3,7,1) 0%, rgba(2, 209, 250, 0.774) 100%);
+    border: #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0px 0px 16px 10px rgba(8, 83, 80, 0.36);
+    -webkit-box-shadow: 0px 0px 16px 10px rgba(8, 83, 80, 0.36);
+    -moz-box-shadow: 0px 0px 16px 10px rgba(8, 83, 80, 0.36);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  body {
+    margin-top: 100px;
+    background: rgb(3,3,7);
+    background: linear-gradient(0deg, rgba(3,3,7,1) 0%, rgba(2, 209, 250, 0.774) 100%);
+    margin: 0;
+  }
+  section h2 {
+    font-size: 2em;
+  }
+  
+  header ul {
+    display: flex;
+  }
+  main {
+    border: 1px solid #e5e5e5;
+  }
+  main,
+  table {
+     text-align: center;
+  }
+  
+  footer {
+    margin: 0%;
+    padding: 10px;
+    background: rgb(3,3,7);
+    background: linear-gradient(0deg, rgba(3,3,7,1) 0%, rgba(2, 209, 250, 0.774) 100%);
+    text-align: center;
+    color: #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+  }

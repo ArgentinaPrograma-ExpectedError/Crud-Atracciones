@@ -18,7 +18,6 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="assets/stylesheets/style.css">
 <link rel="stylesheet" href="assets/stylesheets/panel.css">
 
 <title>Panel de Administrador</title>
@@ -30,7 +29,7 @@
 			<a href="index.html">PARQUE TIERRA MEDIA</a>
 		</h1>
 		<h2>Panel del Admistrador</h2>
-		<div clas="container">
+		<div class="container">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light navegador">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="#"></a>
@@ -71,23 +70,25 @@
 	</header>
 	<main class="container">
 		<br> <br>
-		<h3>Atracciones</h3>
+		<h3>Lista de atracciones</h3>
 		<br>
 		<table class="container">
 			<thead>
 				<tr>
+					<th>ID</th>
 					<th>Atracción</th>
 					<th>Costo</th>
 					<th>Tiempo</th>
 					<th>Cupo Diario</th>
 					<th>Tipo de Atracción</th>
 
-					<th colspan="3">Acciones</th>
+					<th colspan="4">Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${attractions}" var="attraction">
 					<tr>
+						<td><c:out value="${attraction.id}"></c:out></td>
 						<td><c:out value="${attraction.name}"></c:out></td>
 						<td><c:out value="${attraction.cost}"></c:out></td>
 						<td><c:out value="${attraction.duration}"></c:out></td>
@@ -95,21 +96,21 @@
 						<td><c:out value="${attraction.attractionType}"></c:out></td>
 
 						<td><a
-								href="/turismo/attractions/edit.do?id=${attraction.id}"
-								class="btn btn-light rounded-0" role="button"><i
-									class="bi bi-pencil-fill"></i></a> <a
-								href="/turismo/attractions/delete.do?id=${attraction.id}"
-								class="btn btn-danger rounded" role="button"><i
-									class="bi bi-x-circle-fill"></i></a> <c:choose>
-									<c:when test="${attraction.enable}">
-										<a href="/turismo/attractions/enable.do?id=${attraction.id}"
-											class="btn btn-success rounded" role="button">Deshabilitar</a>
-									</c:when>
-									<c:otherwise>
-										<a href="/turismo/attractions/enable.do?id=${attraction.id}"
-											class="btn btn-success rounded" role="button">Habilitar</a>
-									</c:otherwise>
-								</c:choose></td>
+							href="/turismo/attractions/edit.do?id=${attraction.id}"
+							class="btn btn-light rounded-0" role="button"><i
+								class="bi bi-pencil-fill"></i></a> <a
+							href="/turismo/attractions/delete.do?id=${attraction.id}"
+							class="btn btn-danger rounded" role="button"><i
+								class="bi bi-x-circle-fill"></i></a> <c:choose>
+								<c:when test="${attraction.enable}">
+									<a href="/turismo/attractions/enable.do?id=${attraction.id}"
+										class="btn btn-success rounded" role="button">Deshabilitar</a>
+								</c:when>
+								<c:otherwise>
+									<a href="/turismo/attractions/enable.do?id=${attraction.id}"
+										class="btn btn-success rounded" role="button">Habilitar</a>
+								</c:otherwise>
+							</c:choose></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -119,168 +120,69 @@
 				role="button"> <i class="bi bi-plus-lg"></i> Nueva Atracción
 			</a>
 		</div>
+
 		<br> <br> <br>
+		<h3>Lista de Promociones</h3>
+		<br>
+		<table class="container">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>Atracciones</th>
+					<th>Promoción</th>
+					<th>Tipo</th>
+					<th>Descuento</th>
+					<th>Precio</th>
+					<th>Tiempo</th>
+					<th colspan="4">Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${promotions}" var="promotion">
+					<tr>
+						<td><c:out value="${promotion.id}"></c:out></td>
+						<td><c:out value="${promotion.name}"></c:out></td>
+						<td><c:out value="${promotion.atracciones}"></c:out></td>
+						<td><c:out value="${promotion.promotionType}"></c:out></td>
+						<td><c:out value="${promotion.attractionType}"></c:out></td>
+						<td><c:out value="${promotion.discount}"></c:out></td>
+						<td><c:out value="${promotion.cost}"></c:out></td>
+						<td><c:out value="${promotion.time}"></c:out></td>
 
-		<table class=" container">
-
-
-			<h3>Tipos de promoción</h3>
-
-			<br>
-			<th>id</th>
-			<th>tipo</th>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>absoluta</td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-			</tr>
-			<td>?</td>
-			<td></td>
-			<tr>
-			<tr>
-				<td colspan="2">
-					<button>Crear nueva promoción</button> falta el enlace
-				</td>
-			</tr>
+						<td><a
+							href="/turismo/promotions/edit.do?id=${promotion.id}"
+							class="btn btn-light rounded-0" role="button"><i
+								class="bi bi-pencil-fill"></i></a> <a
+							href="/turismo/promotions/delete.do?id=${promotion.id}"
+							class="btn btn-danger rounded" role="button"><i
+								class="bi bi-x-circle-fill"></i></a> <c:choose>
+								<c:when test="${promotion.enable}">
+									<a href="/turismo/promotions/enable.do?id=${promotion.id}"
+										class="btn btn-success rounded" role="button">Deshabilitar</a>
+								</c:when>
+								<c:otherwise>
+									<a href="/turismo/promotions/enable.do?id=${promotion.id}"
+										class="btn btn-success rounded" role="button">Habilitar</a>
+								</c:otherwise>
+							</c:choose></td>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
+		<div class="mb-3">
+			<a href="/turismo/attractions/create.do" class="btn btn-primary"
+				role="button"> <i class="bi bi-plus-lg"></i> Nueva Atracción
+			</a>
+		</div>
+
 
 		<br> <br> <br>
 
+		<h3>Listado de usuarios</h3>
+		<br>
 		<table class=" container">
 
-			<h3>Lista de Promociones</h3>
-			br
-
-			<th>id</th>
-			<th>tipo_promocion</th>
-			<th>nombre</th>
-			<th>tipo_atracciones</th>
-			<th>descuento</th>
-			<th>precio</th>
-			<th colspan="2">Acciones</th>
-
-
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>1</td>
-				<td>Lomas Del Silencio</td>
-				<td>3</td>
-				<td></td>
-				<td>40</td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-			<tr>
-				<td>?</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><button>modificar</button></td>
-				<td><button>Deshabilitar</button></td>
-			</tr>
-
-			<tr>
-				<td colspan="9">
-					<button>Crear nueva promoción</button> falta el enlace
-				</td>
-			</tr>
-
-		</table>
-
-		<br> <br> <br>
-
-		<table class=" container">
-
-
-			<h3>Listado de usuarios</h3>
-
-			<br>
 			<tr>
 				<th>id</th>
 				<th>nombre</th>

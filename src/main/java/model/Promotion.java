@@ -118,6 +118,7 @@ public abstract class Promotion implements Suggestion, Comparable<Promotion> {
 	public abstract int calculateCost();
 
 	public abstract Integer getCost();
+
 	public abstract void setCost(int i);
 
 	public abstract String getData();
@@ -158,7 +159,14 @@ public abstract class Promotion implements Suggestion, Comparable<Promotion> {
 
 	public void setDescription(String description2) {
 		this.description = description2;
-		
+
+	}
+
+	public void host(int i) {
+		for (Attraction attraction : attractions) {
+			attraction.host(i);
+		}
+
 	}
 
 }

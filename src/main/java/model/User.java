@@ -20,17 +20,16 @@ public class User {
 		this.admin = admin;
 	}
 
-	public void addToItinerary(Attraction attraction) {
-		this.coins -= attraction.getCost();
-		this.time -= attraction.getDuration();
-		// TODO agregar a su lista
+	public void addToItinerary(Suggestion suggestion) {
+		this.coins -= suggestion.getCost();
+		this.time -= suggestion.getDuration();
 	}
 
-	public boolean canAfford(Attraction attraction) {
-		return attraction.getCost() <= this.coins;
+	public boolean canAfford(Suggestion suggestion) {
+		return suggestion.getCost() <= this.coins;
 	}
 
-	public boolean canAttend(Attraction attraction) {
+	public boolean canAttend(Suggestion attraction) {
 		return attraction.getDuration() <= this.time;
 	}
 
